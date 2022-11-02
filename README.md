@@ -1,6 +1,6 @@
 # SkateBoard Progression
 ## Goals
-# Phase 1
+### Phase 1
 build frontend and style page
 ### Phase 2
 build backend
