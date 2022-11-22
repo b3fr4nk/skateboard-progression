@@ -15,7 +15,7 @@
 </head>
 <body>
     <!-- desktop nav bar -->
-    <div class="container m-4 w-100">
+    <div class="container m-4 d-none d-lg-inline w-100">
         <nav class="row">
         
             <div class="col-lg-1 position-relative">
@@ -133,20 +133,31 @@
                     </div>
                 </div>
             </div>
-        <!-- mobile nav bar -->
-        <!-- <div class="container">
-            <div class="row">
-
-                <div class="col-md-2 d-lg-none position-relative">
-                    <button type="button" class="btn bg-primary position-absolute top-50 start-50 translate-middle">
-                        <div class="h5">
-                            add trick
-                        </div>
-                    </button>
-                </div>
-
-            </div> -->
         </div>
+    </div>
+    <!-- mobile nav bar -->
+    <div class="container d-flex d-lg-none fixed-bottom bg-light m-0 p-0">
+        <nav class="row d-flex">
+            <div class="col-2 text-center">
+                <button class="btn h-100 w-10 text-center position-relative">Profile</button>
+            </div>
+            
+            <div class="col-2 text-center">
+                <button class="btn h-100 w-100 text-center position-relative">Browse</button>
+            </div>
+            
+            <div class="col-4 text-center">
+                <button class="btn h-100 w-100 bg-primary position-relative">Add Trick</button>
+            </div>
+            
+            <div class="col-2 text-center">
+                <button class="btn h-100 w-100 text-center">Your Tricks</button>
+            </div>
+            
+            <div class="col-2 text-center">
+                <button class="btn h-100 w-100 text-center">Settings</button>
+            </div>
+        </nav>
     </div>
 </body>
 </html>
