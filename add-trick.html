@@ -62,22 +62,35 @@
     <!-- main content -->
         <div class="container-fluid position-absolute">
             <!-- add trick -->
-            <div class="row m-5">
+            <form>
 
-                <div class="col-lg-6 bg-light">
-                    <input class="w-100 h-100 p-5" type="image">
+                <div class="row m-5">
+
+                    <div class="col-sm-6 bg-light">
+                        <input class="w-100 h-100 p-5" type="image">
+                    </div>
+
+                    <div class="col-sm-6 p-0">
+                        <input class="w-100 h-100 p-5" type="text">
+                    </div>
+                    
                 </div>
 
-                <div class="col-lg-6 p-0">
-                    <input class="w-100 h-100 p-5" type="text">
+                <div class="row m-0">
+
+                    <div class="col-sm-2 offset-sm-8 p-0 h-100">
+                        <label for="public-check" class="py-3 px-5">Public</label>
+                        <input class="py-3 px-5" id="public-check" type="checkbox">
+                    </div>
+
+                    <div class="col-sm-2 p-0">
+                        <button type="submit" class="btn bg-primary py-3 px-5">Post</button>
+                    </div>
+                    
                 </div>
-                
-            </div>
-            <div class="row">
-                <div class="col-lg-2 offset-md-10 p-0 justify-content-end">
-                    <button class="btn bg-primary py-3 px-5">Post</button>
-                </div>
-            </div>
+
+            </form>
+
         </div>
         
         <!-- mobile nav bar -->
