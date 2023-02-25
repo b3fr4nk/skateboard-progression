@@ -1,8 +1,8 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from datetime import date, datetime
+from skate_app.models import User, Post, Comment
 from flask_login import login_user, logout_user, login_required, current_user
-from skate_app.models import User, Post, Trick, Comment
-from skate_app.forms import TrickForm, SignUpForm, LoginForm, CommentForm
+from skate_app.forms import TrickForm, SignupForm, LoginForm, CommentForm
 
 from skate_app.extensions import app, db, bcrypt
 
@@ -48,7 +48,7 @@ def comments(post_id):
 
 @auth.route('/signup', methods=["GET", "POST"])
 def sign_up():
-    form = SignUpForm()
+    form = SignupForm()
 
     #TODO validate form and add to db
 

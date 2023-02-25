@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from skate_app.config import Config
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-import os
 
 app = Flask(__name__)
 app.config.from_object(Config)

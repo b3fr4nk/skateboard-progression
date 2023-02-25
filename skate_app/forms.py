@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 import re
-from wtforms import StringField, DateField, FileField, PasswordField, SelectField, SubmitField, ValidationError, InputRequired
+from wtforms import StringField, DateField, FileField, PasswordField, SelectField, SubmitField, ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, length
 from skate_app.models import User

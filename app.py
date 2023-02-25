@@ -1,5 +1,5 @@
-from skate_app.main.routes import main
-from skate_app.auth.routes import auth
+from skate_app.routes import main
+from skate_app.routes import auth
 from skate_app.extensions import app, db
 
 app.register_blueprint(main)
