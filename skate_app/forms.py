@@ -1,14 +1,15 @@
 from flask_wtf import FlaskForm
 import re
-from wtforms import StringField, DateField, FileField, PasswordField, SelectField, SubmitField, ValidationError
+from wtforms import StringField, FileField, PasswordField, SubmitField, ValidationError
+from wtforms.fields.html5 import DateField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, length
 from skate_app.models import User
 from skate_app.extensions import bcrypt
 
 def file_ext(extensions):
-    message = 'Please only upload files ending in '
     def _file_ext(form, field):
+        message = 'Please only upload files ending in '
         file_ext = field.data[-4:].lower()
         for ext in extensions:
             message += f'{ext} '
@@ -36,17 +37,17 @@ class ValidatePassword(object):
     def __call__(self, form, field):
         l = len(field.data)
         if l < self.min or self.max != -1 and l > self.max:
-            match = re.findall("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
+            match = re.findall("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$", field.data)
             if len(match) < 1:
                 raise ValidationError(self.message[0])
             raise ValidationError(self.message[1])
 
 
-class TrickForm(FlaskForm):
+class PostForm(FlaskForm):
 
     name = StringField('Trick', validators=[DataRequired()])
     date = DateField('Date Done')
-    image = FileField('Photo', validators=[DataRequired(), file_ext(['.jpg', '.png'])])
+    photo = FileField('Photo', validators=[DataRequired(), file_ext(['.jpg', '.png'])])
     submit = SubmitField('Post')
 
 class CommentForm(FlaskForm):

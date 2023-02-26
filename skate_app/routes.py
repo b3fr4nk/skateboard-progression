@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash
 from datetime import date, datetime
 from skate_app.models import User, Post, Comment
 from flask_login import login_user, logout_user, login_required, current_user
-from skate_app.forms import TrickForm, SignupForm, LoginForm, CommentForm
+from skate_app.forms import PostForm, SignupForm, LoginForm, CommentForm
 
 from skate_app.extensions import app, db, bcrypt
 
@@ -15,13 +15,26 @@ def homepage():
     
     return render_template('index.html', posts = posts)
 
-@main.route('/new_trick', methods=['POST'])
+@main.route('/add_trick', methods=['POST', 'GET'])
 @login_required
-def new_trick():
-    form = TrickForm()
+def add_trick():
+    form = PostForm()
 
-    #TODO validate form and add to db
-    return render_template('add_trick.html', form=form)
+    if form.validate_on_submit():
+        new_post = Post(
+            name=form.name.data,
+            date=form.date.data,
+            photo=form.photo.data
+        )
+
+        db.session.add(new_post)
+        db.session.commit()
+
+        flash('Posted successfully')
+
+        return redirect(url_for('main.post_details', post_id=new_post.id))
+
+    return render_template('add-trick.html', form=form)
 
 @main.route('/user/<user_id>', methods=["GET"])
 def user_details(user_id):
@@ -50,14 +63,28 @@ def comments(post_id):
 def sign_up():
     form = SignupForm()
 
-    #TODO validate form and add to db
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = User(
+            username=form.username.data,
+            password=hashed_password
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Account created')
+        return redirect(url_for('auth.login'))
 
     return render_template('signup.html', form=form)
 
-@auth.route('/login', methods=['POST'])
+@auth.route('/login', methods=['POST', 'GET'])
 def login():
     form = LoginForm()
 
-    #TODO validate and login
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        login_user(user, remember=True)
+        
+        return redirect(url_for('main.homepage'))
 
-    return render_template
+    return render_template('login.html', form=form)
