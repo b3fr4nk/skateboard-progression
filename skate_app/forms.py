@@ -52,12 +52,12 @@ class PostForm(FlaskForm):
 
 class CommentForm(FlaskForm):
 
-    text = StringField('Comment', validators=[DataRequired(), length(min=5)])
+    text = StringField('Comment', validators=[DataRequired()])
     submit = SubmitField('Post')
 
 class SignupForm(FlaskForm):
 
-    username = StringField("Username", validators=[DataRequired(), length(min=6, max=18)])
+    username = StringField("Username", validators=[DataRequired(), length(min=5, max=18)])
     password = PasswordField("Password", validators=[DataRequired(), ValidatePassword()])
     submit = SubmitField('Sign Up')
 

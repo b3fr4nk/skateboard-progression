@@ -28,10 +28,10 @@
                 <div class="card">
                     <img src="{{post.image}}" alt="...">
                     <div class="card-title">
-                        <h3>{{post.name}}</h3>
+                        <a href="{{url_for('main.post_details', post_id=post.id)}}" class="h3">{{post.name}}</a>
                     </div>
                     <div class="card-body">
-                        <p>{{post.user}} landed a {{post.name}} on {{post.date}}</p>
+                        <p>{{post.poster}} landed a {{post.name}} on {{post.date}}</p>
                     </div>
                 </div>
             </div>

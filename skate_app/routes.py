@@ -12,6 +12,8 @@ auth = Blueprint("auth", __name__)
 @main.route('/')
 def homepage():
     posts = Post.query.all()
+
+    posts = id_to_name_post(posts)
     
     return render_template('index.html', posts = posts)
 
@@ -24,7 +26,8 @@ def add_trick():
         new_post = Post(
             name=form.name.data,
             date=form.date.data,
-            photo=form.photo.data
+            photo=form.photo.data,
+            poster_id=current_user.id
         )
 
         db.session.add(new_post)
@@ -39,24 +42,49 @@ def add_trick():
 @main.route('/user/<user_id>', methods=["GET"])
 def user_details(user_id):
     user = User.query.get(user_id)
-    tricks = db.session.query(User).filter_by(id=user_id).first().tricks
+    tricks = db.session.query(Post).filter_by(poster_id=user_id).all()
+
+    tricks = id_to_name_post(tricks)
     
     return render_template('your-tricks.html', user=user, tricks=tricks)
 
-@main.route('/post/<post_id>', methods=["GET"])
+@main.route('/post/<post_id>', methods=["GET", 'POST'])
 def post_details(post_id):
     post = Post.query.get(post_id)
+    form = CommentForm()
+    comments_data = db.session.query(Comment).filter_by(attached_to_id=post_id).all()
 
-    return render_template('view_trick', post=post)
+    comments = id_to_name_comment(comments_data)
 
-@main.route('/comment/<post_id>', methods=['POST', 'GET'])
-def comments(post_id):
-    post = Post.query.get(post_id)
+    data = {
+        'form':form,
+        'post':post,
+        'comments':comments
+    }
+
+    return render_template('view-trick.html', **data)
+
+@main.route('/comments/<post_id>', methods=['POST', 'GET'])
+def comment(post_id):
     form = CommentForm()
 
-    #TODO validate and add to db
+    if form.validate_on_submit():
+        print('comment added')
 
-    return render_template('/comments.html', form=form)
+        new_comment = Comment(
+            text=form.text.data,
+            created_by = current_user.id,
+            attached_to_id = post_id
+        )
+
+        db.session.add(new_comment)
+        db.session.commit()
+
+        flash('comment added')
+        
+        return redirect(url_for('main.post_details', post_id=post_id)) 
+
+    return redirect(url_for('main.post_details', post_id=post_id, form=form))
 
 
 @auth.route('/signup', methods=["GET", "POST"])
@@ -88,3 +116,31 @@ def login():
         return redirect(url_for('main.homepage'))
 
     return render_template('login.html', form=form)
+
+@auth.route('/logout', methods=["GET"])
+def logout():
+    logout_user()
+    return redirect(url_for('main.homepage'))
+
+def id_to_name_post(posts):
+    results = []
+    for post in posts:
+        results.append({
+            'id':post.id,
+            'name':post.name,
+            'date':post.date,
+            'photo':post.photo,
+            'poster':User.query.get(post.poster_id)
+            })
+
+    return results
+
+def id_to_name_comment(comments):
+    results = []
+    for comment in comments:
+        results.append({
+            'text':comment.text,
+            'created_by':User.query.get(comment.created_by)
+            })
+
+    return results
