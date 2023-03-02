@@ -18,6 +18,10 @@
         <h2>{{post.date}}</h2>
         <img src="{{post.photo}}" alt="..." width="300px">
 
+        <form action="{{url_for('main.delete_trick', post_id=post.id)}}" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+
         <h3>Comments</h3>
         <section class="col-lg-8">
             <ul>
@@ -36,6 +40,8 @@
 
             {{form.submit}}
         </form>
+
+
     {% endblock %}
 </body>
 

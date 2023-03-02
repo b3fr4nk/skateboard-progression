@@ -45,6 +45,20 @@ def add_trick():
 
     return render_template('add-trick.html', form=form)
 
+@main.route('/delete_trick/<post_id>', methods=['POST'])
+@login_required
+def delete_trick(post_id):
+    post = Post.query.get(post_id)
+    if post.poster_id == current_user.id:
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('main.homepage'))
+    else:
+        flash('you are the owner of this post')
+
+    return redirect(url_for('main.post_details', post_id=post_id))
+    
+
 @main.route('/user/<user_id>', methods=["GET"])
 def user_details(user_id):
     user = User.query.get(user_id)
