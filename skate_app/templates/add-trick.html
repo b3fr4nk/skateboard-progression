@@ -19,7 +19,7 @@
         <div class="container-fluid ">
             <form action="{{url_for('main.add_trick')}}" method="POST" enctype="multipart/form-data">
                 {{form.csrf_token}}
-                <legend>Login</legend>
+                <legend>Add Trick</legend>
 
                     {{ form.name.label }}
                     {{ form.name }}
