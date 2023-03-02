@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 import re
-from wtforms import StringField, FileField, PasswordField, SubmitField, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, ValidationError
 from wtforms.fields.html5 import DateField
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.validators import DataRequired, length
 from skate_app.models import User
@@ -47,7 +49,7 @@ class PostForm(FlaskForm):
 
     name = StringField('Trick', validators=[DataRequired()])
     date = DateField('Date Done')
-    photo = FileField('Photo', validators=[DataRequired(), file_ext(['.jpg', '.png'])])
+    photo = FileField('Photo', validators=[DataRequired()])
     submit = SubmitField('Post')
 
 class CommentForm(FlaskForm):

@@ -3,6 +3,8 @@ from datetime import date, datetime
 from skate_app.models import User, Post, Comment
 from flask_login import login_user, logout_user, login_required, current_user
 from skate_app.forms import PostForm, SignupForm, LoginForm, CommentForm
+from werkzeug.utils import secure_filename
+import os
 
 from skate_app.extensions import app, db, bcrypt
 
@@ -23,10 +25,14 @@ def add_trick():
     form = PostForm()
 
     if form.validate_on_submit():
+        filename = secure_filename(form.photo.data.filename)
+        file = form.photo.data
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         new_post = Post(
             name=form.name.data,
             date=form.date.data,
-            photo=form.photo.data,
+            photo=url_for('static', filename=filename),
             poster_id=current_user.id
         )
 
