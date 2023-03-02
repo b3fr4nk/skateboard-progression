@@ -71,6 +71,7 @@ def post_details(post_id):
     return render_template('view-trick.html', **data)
 
 @main.route('/comments/<post_id>', methods=['POST', 'GET'])
+@login_required
 def comment(post_id):
     form = CommentForm()
 
