@@ -5,3 +5,9 @@ this project uses flask, sqlalchemy, and sqlite for backend and bootstrap, and j
 
 ## To Use
 go to https://sk8-social.onrender.com
+
+## Future Plans
+    style the project better (it looks like crap)
+    add support for videos
+    add a new category for tutorials
+    add a search function
